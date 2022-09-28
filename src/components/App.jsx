@@ -1,9 +1,23 @@
+import React from "react";
 import { Box } from "./Box";
+import { Searchbar } from "./Searchbar/Searchbar";
 
-export const App = () => {
-  return (
-    <Box bg="mute">
-      React homework template
-    </Box>
-  );
+export class App extends React.Component {
+  state = {
+    searchLine: "",
+};
+
+handleFormSubmit = searchLine => {
+  console.log("In APP", searchLine)
+  this.setState({searchLine:searchLine})
+};
+
+
+  render() {
+    return (
+      <Box bg="mute" >
+        <Searchbar onFormSubmit={this.handleFormSubmit}/>
+      </Box>
+    );
+  }
 };
