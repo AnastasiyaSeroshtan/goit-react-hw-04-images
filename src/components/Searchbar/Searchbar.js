@@ -1,5 +1,6 @@
 import { Box } from "components/Box";
 import React from "react";
+import { SearchForm, SearchInput } from "./Searchbar.styled";
 
 export class Searchbar extends React.Component {
     state = {
@@ -14,7 +15,6 @@ export class Searchbar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.searchLine)
         this.props.onFormSubmit(this.state.searchLine);
         this.setState({searchLine: ''});
     }
@@ -22,12 +22,12 @@ export class Searchbar extends React.Component {
     render () {
         return (
             <Box as="header" >          
-                <form onSubmit={this.handleSubmit}>
+                <SearchForm onSubmit={this.handleSubmit}>
                     <button type="submit">
                     <span>Search</span>
                     </button>
 
-                    <input
+                    <SearchInput
                     type="text"
                     autoComplete="off"
                     autoFocus
@@ -35,7 +35,7 @@ export class Searchbar extends React.Component {
                     value={this.state.searchLine}
                     onChange={this.handleChange}
                     />
-                </form>
+                </SearchForm>
             </Box>
         )
     };
