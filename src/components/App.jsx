@@ -1,15 +1,18 @@
 import React from "react";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Box } from "./Box";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
 import { getImages } from "../services/api";
 import { Button } from "./Button/Button";
+import { Loader } from "./Loader/Loader";
 
 export class App extends React.Component {
   state = {
     page: 1,
     searchLine: "",
     images: [],
+    isLoading: false,
 };
 
 handleFormSubmit = (searchLine) => {
@@ -22,30 +25,41 @@ handleFormSubmit = (searchLine) => {
 loadMore = () => {
   this.setState(prevState => ({
     page: prevState.page + 1,
-  }))
+  }));
 };
 
-componentDidUpdate(prevProps, prevState) {
-  console.log("prevState.page", prevState.page);
-  console.log("this.state.page", this.state.page);
+async componentDidUpdate(_, prevState) {
+  try {
+    const {page, searchLine} = this.state;
 
-  console.log("prevState.searchLine", prevState.searchLine);
-  console.log("this.state.searchLine", this.state.searchLine);
-  const {page, searchLine} = this.state;
+    if (prevState.searchLine !== searchLine ||
+        prevState.page !== page) {
 
-  if (prevState.searchLine !== searchLine ||
-      prevState.page !== page) {
-    getImages(searchLine, page).then(data => 
-      this.setState(prevState => ({
-        images: [...prevState.images, ...data.hits],
-      }))
-    )
-  }
-};
+      this.setState({isLoading: true});    
+      await getImages(searchLine, page).then(data => {
+        return(
+          data.hits.length === 0
+          ? Notify.info('Ops! We did not find any images matching your request. Please try again.')
+          : this.setState(prevState => ({
+            images: [...prevState.images, ...data.hits],
+          }))
+        )
+      } 
+      )
+      this.setState({isLoading: false})
+    }
+  } catch(error){
+      this.setState({isLoading: true}); 
+      console.log(error)
+      this.setState({isLoading: false})
+  } 
+}
 
   render() {
+    const {isLoading} = this.state;
     return (
       <Box bg="mute" >
+        {isLoading && <Loader />}
         <Searchbar onFormSubmit={this.handleFormSubmit}/>
         <ImageGallery images={this.state.images}/>
         {this.state.images.length > 0 && <Button handleClick={this.loadMore}/>}

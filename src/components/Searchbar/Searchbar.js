@@ -1,5 +1,6 @@
 import { Box } from "components/Box";
 import React from "react";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { SearchForm, SearchInput } from "./Searchbar.styled";
 
 export class Searchbar extends React.Component {
@@ -15,6 +16,10 @@ export class Searchbar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        if(this.state.searchLine.trim() === ''){
+            Notify.failure('Please enter a request!');
+        }
+       
         this.props.onFormSubmit(this.state.searchLine);
         this.setState({searchLine: ''});
     }
