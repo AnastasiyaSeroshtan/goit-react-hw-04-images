@@ -13,6 +13,6 @@ export const ButtonLoadMore = styled.button`
     border-radius: 8px;
     transition: scale 250ms linear;
     :hover{
-        scale: 1.1;
+      scale: 1.1;
     }
 `

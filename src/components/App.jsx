@@ -56,13 +56,15 @@ async componentDidUpdate(_, prevState) {
 }
 
   render() {
-    const {isLoading} = this.state;
+    const {isLoading, images} = this.state;
     return (
       <Box bg="mute" >
         {isLoading && <Loader />}
         <Searchbar onFormSubmit={this.handleFormSubmit}/>
-        <ImageGallery images={this.state.images}/>
-        {this.state.images.length > 0 && <Button handleClick={this.loadMore}/>}
+       <main style={{ textAlign: 'center', marginTop: '20px' }}>
+       <ImageGallery images={images}/>
+        {images.length > 0 && <Button handleClick={this.loadMore}/>}
+        </main>
       </Box>
     );
   }

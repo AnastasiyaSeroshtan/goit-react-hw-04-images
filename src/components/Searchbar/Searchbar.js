@@ -1,7 +1,8 @@
 import { Box } from "components/Box";
 import React from "react";
+import {ReactComponent as Search} from "../../icon/search.svg";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { SearchForm, SearchInput } from "./Searchbar.styled";
+import { SearchForm, SearchInput, SearchFormBtn } from "./Searchbar.styled";
 
 export class Searchbar extends React.Component {
     state = {
@@ -28,10 +29,9 @@ export class Searchbar extends React.Component {
         return (
             <Box as="header" >          
                 <SearchForm onSubmit={this.handleSubmit}>
-                    <button type="submit">
-                    <span>Search</span>
-                    </button>
-
+                    <SearchFormBtn type="submit">
+                    <Search/>
+                        </SearchFormBtn>
                     <SearchInput
                     type="text"
                     autoComplete="off"
