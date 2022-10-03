@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import { Overlay, ModalStyle } from "./Modal.styled";
 
@@ -10,7 +11,7 @@ export class Modal extends React.Component {
     };
 
     componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown)
+        window.removeEventListener('keydown', this.handleKeyDown);
     };
     
     handleKeyDown = (e) => {
@@ -35,4 +36,8 @@ export class Modal extends React.Component {
             modalRoot,
         )
     }
+};
+
+Modal.propTypes = {
+    onCloseModal: PropTypes.func.isRequired,
 };

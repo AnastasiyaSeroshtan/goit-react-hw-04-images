@@ -15,19 +15,6 @@ export class App extends React.Component {
     isLoading: false,
 };
 
-handleFormSubmit = (searchLine) => {
-  this.setState({
-    page:1,
-    searchLine:searchLine,
-    images: [],})
-};
-
-loadMore = () => {
-  this.setState(prevState => ({
-    page: prevState.page + 1,
-  }));
-};
-
 async componentDidUpdate(_, prevState) {
   try {
     const {page, searchLine} = this.state;
@@ -54,6 +41,19 @@ async componentDidUpdate(_, prevState) {
       this.setState({isLoading: false})
   } 
 }
+
+handleFormSubmit = (searchLine) => {
+  this.setState({
+    page:1,
+    searchLine:searchLine,
+    images: [],})
+};
+
+loadMore = () => {
+  this.setState(prevState => ({
+    page: prevState.page + 1,
+  }));
+};
 
   render() {
     const {isLoading, images} = this.state;

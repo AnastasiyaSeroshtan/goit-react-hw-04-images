@@ -1,5 +1,6 @@
-import { Box } from "components/Box";
 import React from "react";
+import PropTypes from "prop-types";
+import { Box } from "components/Box";
 import {ReactComponent as Search} from "../../icon/search.svg";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { SearchForm, SearchInput, SearchFormBtn } from "./Searchbar.styled";
@@ -17,11 +18,14 @@ export class Searchbar extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if(this.state.searchLine.trim() === ''){
+        const {onFormSubmit} = this.props;
+        const {searchLine} = this.state;
+
+        if(searchLine.trim() === ''){
             Notify.failure('Please enter a request!');
         }
        
-        this.props.onFormSubmit(this.state.searchLine);
+        onFormSubmit(searchLine);
         this.setState({searchLine: ''});
     }
 
@@ -44,4 +48,8 @@ export class Searchbar extends React.Component {
             </Box>
         )
     };
+};
+
+Searchbar.propTypes = {
+    onFormSubmit: PropTypes.func.isRequired,
 };

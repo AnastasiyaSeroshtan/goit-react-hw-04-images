@@ -1,14 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { GalleryItem, GalleryImg } from "./ImageGalleryItem.styled";
 import { Modal } from "components/Modal/Modal";
 import { Box } from "components/Box";
-// export const ImageGalleryItem = ({image, text}) => {
-//     return (
-//         <GalleryItem>
-//             <GalleryImg src={image} alt={text} loading="lazy"/>
-//         </GalleryItem>
-//     )
-// };
 
 export class ImageGalleryItem extends React.Component{
     state= {
@@ -20,22 +14,29 @@ export class ImageGalleryItem extends React.Component{
     };
     
     render(){
+        const {image, text, imageLarge} = this.props;
         const {showModal} = this.state; 
         return (
          <Box>
                <GalleryItem>
-                <GalleryImg src={this.props.image} 
-                            alt={this.props.text} 
+                <GalleryImg src={image} 
+                            alt={text} 
                             loading="lazy"
                             onClick={this.toggleModal}/>
             </GalleryItem>
           {showModal &&(
               <Modal onCloseModal={this.toggleModal}>
-              <img src={this.props.imageLarge}alt={this.props.text}  />
+              <img src={imageLarge} alt={text}  />
                </Modal>
           )}
          </Box>
         )
     }
+};
+
+ImageGalleryItem.propTypes = {
+    image: PropTypes.string.isRequired,
+    imageLarge: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
 };
 

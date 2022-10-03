@@ -1,4 +1,4 @@
-// import { Box } from "components/Box";
+import PropTypes from "prop-types";
 import { Gallery } from "./ImageGallery.styled";
 import { ImageGalleryItem } from "../ImageGalleryItem/ImageGalleryItem";
 
@@ -14,4 +14,13 @@ export const ImageGallery = ({images}) => {
            )}
         </Gallery>
     )
+};
+
+ImageGallery.propTypes = {
+    images: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        image: PropTypes.string,
+        text: PropTypes.string,
+        imageLarge: PropTypes.string,
+    }))
 };
