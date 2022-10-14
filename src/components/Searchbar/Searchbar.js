@@ -1,38 +1,31 @@
-import React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "components/Box";
 import {ReactComponent as Search} from "../../icon/search.svg";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { SearchForm, SearchInput, SearchFormBtn } from "./Searchbar.styled";
 
-export class Searchbar extends React.Component {
-    state = {
-        searchLine: "",
-    };
+export const Searchbar = ({onFormSubmit}) => {
+    const [searchLine, setSearchLine] = useState('');
 
-    handleChange = (e) => {
-        this.setState({
-            searchLine: e.currentTarget.value,
-        })
+    const handleChange = (e) => {
+        setSearchLine(e.currentTarget.value)
     };    
 
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const {onFormSubmit} = this.props;
-        const {searchLine} = this.state;
 
         if(searchLine.trim() === ''){
             Notify.failure('Please enter a request!');
         }
        
         onFormSubmit(searchLine);
-        this.setState({searchLine: ''});
+        setSearchLine('');
     }
 
-    render () {
-        return (
+    return (
             <Box as="header" >          
-                <SearchForm onSubmit={this.handleSubmit}>
+                <SearchForm onSubmit={handleSubmit}>
                     <SearchFormBtn type="submit">
                     <Search/>
                         </SearchFormBtn>
@@ -41,13 +34,12 @@ export class Searchbar extends React.Component {
                     autoComplete="off"
                     autoFocus
                     placeholder="Search images and photos"
-                    value={this.state.searchLine}
-                    onChange={this.handleChange}
+                    value={searchLine}
+                    onChange={handleChange}
                     />
                 </SearchForm>
             </Box>
         )
-    };
 };
 
 Searchbar.propTypes = {
